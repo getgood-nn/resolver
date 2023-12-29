@@ -20,7 +20,7 @@
           }
         } else {
           index = (index - 1 + titles[titleIndex].length) % (titles[titleIndex].length + 1);
-          if (index === 1) {
+          if (index === 0) {
             forward = true;
             titleIndex = (titleIndex + 1) % titles.length;
           }
