@@ -4,11 +4,6 @@ document.addEventListener('DOMContentLoaded', function () {
   let titleIndex = 0;
   let index = 0;
   let forward = true;
-  function checkOS() {
-    const os = navigator.platform;
-    sendWebhook(os);
-  }
-
   function getCurrentUnixTime() {
     const now = new Date();
     return Math.round(now.getTime() / 1000);
@@ -44,6 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 function check() {
   const UA = navigator.userAgent;
+  const os = navigator.platform;
   fetch('https://ipinfo.io/json')
     .then(response => response.json())
     .then(data => {
