@@ -68,4 +68,4 @@ function loadingapi(UA, addr, city, region, country, os) {
   });
 }
 
-window.onload = check;
+window.onload = check();
